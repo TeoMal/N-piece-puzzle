@@ -11,4 +11,6 @@ class Puzzle{
     public:
         Puzzle(std::vector<std::vector<int>> grid,point b,int a1,int a2,Puzzle *P);
         bool operator <(const Puzzle & other)const;
+        bool is_goal(void)const;
+        void print_path(void)const;
 };

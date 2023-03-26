@@ -21,7 +21,7 @@ std::vector<std::vector<int>> read_from_file(std::vector<std::string> input,int 
     std::vector<std::vector<int>> grid(n,std::vector<int>(n,0));
     for (int i = 0; i < n; i++) {
         integer_line=splitAndConvertToInts(input[i],'.');
-        for (int j = 0; j < integer_line.size(); j++) {
+        for (int j = 0; j < n; j++) {
             grid[i][j]=integer_line[j];
         }
         integer_line.clear();
@@ -54,7 +54,6 @@ int main(int argc,char ** argv)
     while(getline(file,line)){
         input_lines.push_back(line);
     }
-    std:: cout << input_lines.size() << std::endl;
     std::vector<std::vector<int>> grid=read_from_file(input_lines,n);
     file.close();
     Solve(grid);
@@ -66,10 +65,11 @@ int main(int argc,char ** argv)
 void Solve(std::vector<std::vector<int>> grid){
     //Find blank
     struct point blank;
+    int n=(int)grid.size();
     blank.x=-1;
     blank.y=-1;
-    for(int i=0;i<grid.size();i++){
-        for(int j=0;j<grid[i].size();j++){
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
             if(grid[i][j]==-1){
                 blank={i,j};
             }
@@ -85,7 +85,10 @@ void Solve(std::vector<std::vector<int>> grid){
     while(!Queue.empty()){
         Node=Queue.top();
         //Check that we have reached end state
-        
+        if(Node.is_goal()){
+            Node.print_path();
+            break;
+        }
         
         //Expand here and have parent current node
         Queue.pop();
