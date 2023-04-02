@@ -61,7 +61,7 @@ int main(int argc,char ** argv)
     return 0;
 }
 
-
+//TODO solve with Iterative Depth A * search
 void Solve(std::vector<std::vector<int>> grid){
     //Find blank
     struct point blank;
