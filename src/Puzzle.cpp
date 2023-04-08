@@ -49,3 +49,42 @@ void Puzzle::print_path(void)const{
     }
     printf("\n");
 }
+
+int Puzzle::fix(MOVE w){
+
+}
+
+Puzzle::Puzzle(Puzzle &father,MOVE w){
+    board=father.board;
+    g=father.g+1;
+    blank=father.blank;
+    switch (w)
+    {
+    case UP:
+        board[blank.x][blank.y]=board[blank.x-1][blank.y];
+        board[blank.x-1][blank.y]=-1;
+        blank.x--;
+        break;
+    case DOWN:
+        board[blank.x][blank.y]=board[blank.x+1][blank.y];
+        board[blank.x+1][blank.y]=-1;
+        blank.x++;
+        break;
+    case LEFT:
+        board[blank.x][blank.y]=board[blank.x][blank.y-1];
+        board[blank.x][blank.y-1]=-1;
+        blank.y--;
+        break;
+    case RIGHT:
+        board[blank.x][blank.y]=board[blank.x][blank.y+1];
+        board[blank.x][blank.y+1]=-1;
+        blank.y++;
+        break;
+    default:
+        exit(40);
+        break;
+ 
+    }
+    parent=&father;
+    h=father.fix(w);
+}

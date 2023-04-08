@@ -6,19 +6,20 @@
 #include"../include/Puzzle.hpp"
 #include "../include/Heuristic.hpp"
 #include<queue>
-void Solve(std::vector<std::vector<int>> grid);
-std::vector<int> splitAndConvertToInts(std::string input, char delimiter) {
-    std::vector<int> output;
-    std::stringstream ss(input);
-    std::string item;
+using namespace std;
+void Solve(vector<vector<int>> grid);
+vector<int> splitAndConvertToInts(string input, char delimiter) {
+    vector<int> output;
+    stringstream ss(input);
+    string item;
     while (getline(ss, item, delimiter)) {
         output.push_back(stoi(item));
     }
     return output;
 }
-std::vector<std::vector<int>> read_from_file(std::vector<std::string> input,int n){
-    std::vector<int> integer_line;
-    std::vector<std::vector<int>> grid(n,std::vector<int>(n,0));
+vector<vector<int>> read_from_file(vector<string> input,int n){
+    vector<int> integer_line;
+    vector<vector<int>> grid(n,vector<int>(n,0));
     for (int i = 0; i < n; i++) {
         integer_line=splitAndConvertToInts(input[i],'.');
         for (int j = 0; j < n; j++) {
@@ -34,35 +35,35 @@ int main(int argc,char ** argv)
         perror("Wrong amount of arguments\nExecute program: ./executable input_file");
         exit(1);
     }
-    std::ifstream file;
+    ifstream file;
     file.open(argv[1]);
     if(!file){
         perror("Couldn't find the input file...\nExiting\n");
         exit(2);
     }
     int n=0;
-    std::string line;
+    string line;
     getline(file,line);
     n=stoi(line);
     if(n==0){
         perror("Couldn't get the size of the board please provide the size of the board in the first line of the .txt file and in the following the input\n");
         exit(3);
     }
-    std::cout <<"Size is " << n << std::endl;
+    cout <<"Size is " << n << endl;
     
-    std::vector <std::string> input_lines;
+    vector <string> input_lines;
     while(getline(file,line)){
         input_lines.push_back(line);
     }
-    std::vector<std::vector<int>> grid=read_from_file(input_lines,n);
+    vector<vector<int>> grid=read_from_file(input_lines,n);
     file.close();
     Solve(grid);
     grid.clear();
     return 0;
 }
 
-//TODO solve with Iterative Depth A * search
-void Solve(std::vector<std::vector<int>> grid){
+
+void Solve(vector<vector<int>> grid){
     //Find blank
     struct point blank;
     int n=(int)grid.size();
@@ -80,7 +81,7 @@ void Solve(std::vector<std::vector<int>> grid){
         exit(4);
     }
     Puzzle Node(grid,blank,0,heuristic(grid),NULL);
-    std::priority_queue<Puzzle> Queue;
+    priority_queue<Puzzle> Queue;
     Queue.push(Node);
     while(!Queue.empty()){
         Node=Queue.top();
