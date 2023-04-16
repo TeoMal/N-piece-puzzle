@@ -51,9 +51,47 @@ void Puzzle::print_path(void)const{
 }
 
 int Puzzle::fix(MOVE w){
-
+    //TODO fix heuristic from father board to current board
 }
-
+bool Puzzle::is_valid(MOVE w)const{
+    switch (w)
+    {
+    case UP:
+        if(this->blank.x==0){
+            return false;
+        }
+        else{
+            return true;
+        }
+        break;
+    case DOWN:
+        if(this->blank.x==this->board.size()){
+            return false;
+        }
+        else{
+            return true;
+        }
+        break;
+    case LEFT:
+        if(this->blank.y==0){
+            return false;
+        }
+        else{
+            return true;
+        }
+        break;
+    case RIGHT:
+        if(this->blank.y==this->board.size()){
+            return false;
+        }
+        else{
+            return true;
+        }
+    default:
+        return false;
+        break;
+    }
+}
 Puzzle::Puzzle(Puzzle &father,MOVE w){
     board=father.board;
     g=father.g+1;

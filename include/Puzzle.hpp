@@ -14,5 +14,7 @@ class Puzzle{
         bool operator <(const Puzzle & other)const;
         bool is_goal(void)const;
         void print_path(void)const;
+        bool is_valid(MOVE)const;
         Puzzle(Puzzle &,MOVE);
+
 };

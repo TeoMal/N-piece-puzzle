@@ -96,7 +96,12 @@ void Solve(vector<vector<int>> grid){
         }
         
         //Expand here and have parent current node
-        
+        for(MOVE i=UP;i!=LEFT;i=MOVE(i+1)){
+            if(Node->is_valid(i)){
+                temp= new Puzzle(*Node,i);
+                Queue.push(temp);
+            }
+        }
         
         Queue.pop();
 
