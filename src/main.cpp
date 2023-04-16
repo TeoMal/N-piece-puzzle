@@ -6,6 +6,7 @@
 #include"../include/Puzzle.hpp"
 #include "../include/Heuristic.hpp"
 #include<queue>
+#include<list>
 using namespace std;
 void Solve(vector<vector<int>> grid);
 vector<int> splitAndConvertToInts(string input, char delimiter) {
@@ -80,19 +81,31 @@ void Solve(vector<vector<int>> grid){
         perror("You didn't provide a blank spot to do so put -1");
         exit(4);
     }
-    Puzzle Node(grid,blank,0,heuristic(grid),NULL);
-    priority_queue<Puzzle> Queue;
+    Puzzle *Node= new Puzzle(grid,blank,0,heuristic(grid),NULL);
+    Puzzle *temp;
+    priority_queue<Puzzle *> Queue;
+    list<Puzzle *> Trash;
     Queue.push(Node);
     while(!Queue.empty()){
         Node=Queue.top();
+        Trash.push_back(Node);
         //Check that we have reached end state
-        if(Node.is_goal()){
-            Node.print_path();
+        if(Node->is_goal()){
+            Node->print_path();
             break;
         }
         
         //Expand here and have parent current node
+        
+        
         Queue.pop();
+
     }
+
     //Destroy Funct
+    while(!Trash.empty()){
+        temp=Trash.back();
+        Trash.pop_back();
+        delete temp;
+    }
 }
