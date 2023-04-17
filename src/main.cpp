@@ -97,8 +97,9 @@ void Solve(vector<vector<int>> grid){
         
         //Expand here and have parent current node
         for(MOVE i=UP;i!=LEFT;i=MOVE(i+1)){
+            printf("i is %d\n",i);
             if(Node->is_valid(i)){
-                temp= new Puzzle(*Node,i);
+                temp= new Puzzle(Node,i);
                 Queue.push(temp);
             }
         }

@@ -1,5 +1,4 @@
 #include"../include/Heuristic.hpp"
-#define ABS(a, b) ((a > b) ? (a - b) : (b - a))
 int heuristic(std::vector<std::vector<int>> grid){
     int h=0,value,correct_i,correct_j,n=grid.size();
     for(int i=0;i<n;i++){

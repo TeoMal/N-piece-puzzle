@@ -1,4 +1,5 @@
 #include"../include/Puzzle.hpp"
+#include"../include/Heuristic.hpp"
 Puzzle::Puzzle(std::vector<std::vector<int>> grid,point b,int cost,int heur,Puzzle *P):board(grid),blank(b),g(cost),h(heur),parent(P){}
 bool Puzzle::operator<(const Puzzle & other)const{
     return h+g>other.h+other.g;
@@ -51,9 +52,18 @@ void Puzzle::print_path(void)const{
 }
 
 int Puzzle::fix(MOVE w){
-    //TODO fix heuristic from father board to current board
+    int new_h=this->parent->h;
+    int value,correct_x,correct_y,n=this->board.size();
+    point old_b = this->parent->blank;
+    value = this->board[old_b.x][old_b.y];
+    correct_x=(value-1)/n;
+    correct_y=(value-1)%n;
+    new_h+=ABS(correct_x,old_b.x)+ABS(correct_y,old_b.y);
+    new_h-=(ABS(correct_x,blank.x)+ABS(correct_y,blank.y));
+    return new_h;
 }
 bool Puzzle::is_valid(MOVE w)const{
+    int n =this->board.size();
     switch (w)
     {
     case UP:
@@ -65,7 +75,7 @@ bool Puzzle::is_valid(MOVE w)const{
         }
         break;
     case DOWN:
-        if(this->blank.x==this->board.size()){
+        if(this->blank.x==n){
             return false;
         }
         else{
@@ -81,7 +91,7 @@ bool Puzzle::is_valid(MOVE w)const{
         }
         break;
     case RIGHT:
-        if(this->blank.y==this->board.size()){
+        if(this->blank.y==n){
             return false;
         }
         else{
@@ -92,10 +102,10 @@ bool Puzzle::is_valid(MOVE w)const{
         break;
     }
 }
-Puzzle::Puzzle(Puzzle &father,MOVE w){
-    board=father.board;
-    g=father.g+1;
-    blank=father.blank;
+Puzzle::Puzzle(Puzzle *const father,MOVE w){
+    this->board=father->board;
+    g=father->g+1;
+    blank=father->blank;
     switch (w)
     {
     case UP:
@@ -123,6 +133,6 @@ Puzzle::Puzzle(Puzzle &father,MOVE w){
         break;
  
     }
-    parent=&father;
-    h=father.fix(w);
+    this->parent=father;
+    h=this->fix(w);
 }
